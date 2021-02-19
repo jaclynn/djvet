@@ -1,0 +1,24 @@
+{% extends './base.html' %}
+{% block content %}
+<h2>Owners</h2>
+<a href=""><button class="btn">Add Owner</button></a>
+<table id="owners">
+  <tr>
+    <th>First</th>
+    <th>Last</th>
+    <th>Phone</th>
+      <th> </th>
+      <th> </th>
+  </tr>
+  {% for owner in owner_list %}
+  <tr>
+  <tr>
+      <td>{{ owner.first_name }}</td>
+      <td>{{ owner.last_name }}</td>
+      <td>{{ owner.phone }}</td>
+      <td><a href=""><button>Edit</button></a></td>
+      <td><a href=""><button>Delete</button></a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
