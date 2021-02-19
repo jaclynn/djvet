@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .models import Owner
+from .forms import OwnerCreateForm
 
 pets = [
    { 'petname': 'Fido', 'animal_type': 'dog'},
@@ -17,3 +19,8 @@ def home(request):
 
 class OwnerList(ListView):
    model = Owner
+
+class OwnerCreate(CreateView):
+   model = Owner
+   template_name = 'vetoffice/owner_create_form.html'
+   form_class = OwnerCreateForm
