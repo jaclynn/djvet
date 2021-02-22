@@ -6,6 +6,9 @@ class Owner(models.Model):
     last_name = models.CharField(max_length=30)
     phone = models.CharField(max_length=30)
 
+    def get_absolute_url(self):
+        return '/owner/list'
+
     def __str__(self):
         return self.first_name + " " + self.last_name
 
@@ -27,3 +30,9 @@ class Patient(models.Model):
     pet_name = models.CharField(max_length=30)
     age = models.IntegerField(default=0)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return '/patient/list'
+
+    def __str__(self):
+        return self.pet_name + ", " + self.animal_type
