@@ -4,13 +4,13 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Owner, Patient
-from .forms import OwnerCreateForm, OwnerUpdateForm, PatientCreateForm, PatientUpdateForm
+from .models import Owner, Patient, Appointment
+from .forms import OwnerCreateForm, OwnerUpdateForm, PatientCreateForm, PatientUpdateForm, AppointmentCreateForm, AppointmentUpdateForm
 
 # Create your views here.
 @login_required
 def home(request):
-   context = {"name": "<Put your name here>"}
+   context = {"name": request.user}
    return render(request, 'vetoffice/home.html', context)
 
 # CRUD - (R)ead
@@ -19,6 +19,9 @@ class OwnerList(LoginRequiredMixin, ListView):
 
 class PatientList(LoginRequiredMixin, ListView):
     model = Patient
+
+class AppointmentList(LoginRequiredMixin, ListView):
+    model = Appointment
 
 # CRUD - (C)reate
 class OwnerCreate(LoginRequiredMixin, CreateView):
@@ -31,6 +34,15 @@ class PatientCreate(LoginRequiredMixin, CreateView):
     template_name = 'vetoffice/patient_create_form.html'
     form_class = PatientCreateForm
 
+class AppointmentCreate(LoginRequiredMixin, CreateView):
+    model=Appointment
+    template_name = 'vetoffice/appointment_create_form.html'
+    form_class = AppointmentCreateForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 # CRUD - (U)pdate
 class OwnerUpdate(LoginRequiredMixin, UpdateView):
    model = Owner
@@ -42,6 +54,11 @@ class PatientUpdate(LoginRequiredMixin, UpdateView):
    template_name = 'vetoffice/patient_update_form.html'
    form_class = PatientUpdateForm
 
+class AppointmentUpdate(LoginRequiredMixin, UpdateView):
+    model = Appointment
+    template_name = 'vetoffice/appointment_update_form.html'
+    form_class = AppointmentUpdateForm
+
 # CRUD - (D)elete
 class OwnerDelete(LoginRequiredMixin, DeleteView):
     model = Owner
@@ -52,3 +69,8 @@ class PatientDelete(LoginRequiredMixin, DeleteView):
     model = Patient
     template_name = 'vetoffice/patient_delete_form.html'
     success_url = '/patient/list'
+
+class AppointmentDelete(LoginRequiredMixin, DeleteView):
+    model = Appointment
+    template_name = 'vetoffice/appointment_delete_form.html'
+    success_url = '/appointment/list'
