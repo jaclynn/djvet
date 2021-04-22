@@ -61,7 +61,8 @@ div {
 </style>
 </head>
 <body>
-<a href="{% url 'home' %}"><h1>Vet Office</h1></a>
+{% load static %}
+<a href="{% url 'home' %}"><img src="{% static 'vetoffice/vetoffice.png' %}" alt="VO Logo"></a>
 <h3>Welcome to Vet Office {{ name }}!</h3>
     {% block content %}
     {% endblock %}
